@@ -1,8 +1,7 @@
 'use strict';
 
-const ThreadModel = require('../models/threadModel.js');
-const ReplyModel = require('../models/replyModel.js');
-const fetch = require('node-fetch');
+const BoardModel = require('../models/boardModel.js');
+const bcrypt = require('bcrypt');
 
 function Board() {
 
