@@ -1,10 +1,13 @@
 'use strict';
 
-const BoardModel = require('../models/boardModel.js');
+const ThreadModel = require('../models/threadModel.js');
 const bcrypt = require('bcrypt');
 
 function Board() {
 
+    this.createThread = async (board, text, deletePassword) => {
+        // let thread = new
+    }
 }
 
 module.exports = Board

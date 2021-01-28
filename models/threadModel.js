@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URI, { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true });
 
-const boardSchema = new mongoose.Schema({
+const threadSchema = new mongoose.Schema({
     board: String,
     text: String,
     created_on: String,
@@ -21,6 +21,6 @@ const boardSchema = new mongoose.Schema({
     ]
 });
 
-const BoardModel = mongoose.model('board', boardSchema);
+const ThreadModel = mongoose.model('thread', threadSchema);
 
-module.exports = BoardModel
+module.exports = ThreadModel
