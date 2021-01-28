@@ -7,14 +7,14 @@ mongoose.connect(process.env.MONGO_URI, { useFindAndModify: false, useNewUrlPars
 const threadSchema = new mongoose.Schema({
     board: String,
     text: String,
-    created_on: String,
-    bumped_on: String,
+    created_on: Date,
+    bumped_on: Date,
     reported: Boolean,
     delete_password: String,
     replies: [
         {
             text: String,
-            created_on: String,
+            created_on: Date,
             reported: Boolean,
             delete_password: String
         }
