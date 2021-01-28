@@ -1,9 +1,9 @@
 'use strict';
 
-const Controller = require('../controllers/controller.js');
+const Board = require('../controllers/board.js');
 
 module.exports = (app) => {
 
-    let controller = new Controller();
+    let board = new Board();
 
 }

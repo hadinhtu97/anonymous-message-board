@@ -5,7 +5,6 @@ const express = require("express");
 const app = express();
 
 const middleware = require('./routes/middleware.js')
-const auth = require('./routes/auth.js');
 const viewRoutes = require('./routes/view.js');
 const apiRoutes = require('./routes/api.js');
 const errorRoutes = require('./routes/404.js');
@@ -15,7 +14,6 @@ middleware(app);
 
 viewRoutes(app);
 apiRoutes(app);
-auth(app);
 
 errorRoutes(app);
 // Routes above 
