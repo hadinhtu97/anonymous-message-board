@@ -25,12 +25,20 @@ function Board() {
                 board: board
             },
             {
+                // push a new reply to replies AND SORT replies desc by created_on
                 $push: {
                     replies: {
-                        text: text,
-                        created_on: new Date().toUTCString(),
-                        reported: false,
-                        delete_password: bcrypt.hashSync(deletePassword, 12)
+                        $each: [
+                            {
+                                text: text,
+                                created_on: new Date().toUTCString(),
+                                reported: false,
+                                delete_password: bcrypt.hashSync(deletePassword, 12)
+                            }
+                        ],
+                        $sort: {
+                            created_on: -1
+                        }
                     }
                 },
                 bumped_on: new Date().toUTCString()
@@ -45,19 +53,19 @@ function Board() {
         return await ThreadModel.find(
             {
                 board: board
-            },
-            {
-                replies: {
-                    $slice: 3
-                }
             })
-            .sort({ bumped_on: -1 })
+            .sort({
+                bumped_on: -1,
+            })
             .limit(10)
             .select({
                 replies: {
                     reported: 0,
                     delete_password: 0
-                }
+                },
+                board: 0,
+                reported: 0,
+                delete_password: 0
             })
             .exec()
     }
@@ -72,7 +80,10 @@ function Board() {
                 replies: {
                     reported: 0,
                     delete_password: 0
-                }
+                },
+                board: 0,
+                reported: 0,
+                delete_password: 0
             })
             .exec()
     }
@@ -85,7 +96,7 @@ function Board() {
         }, (err, thread) => {
             if (err) return callback(err, null);
             if (!thread) return callback(true, null);
-            if (!bcrypt.compareSync(thread.delete_password, delete_password)) return callback(true, null);
+            if (!bcrypt.compareSync(delete_password, thread.delete_password)) return callback(true, null);
             ThreadModel.findOneAndDelete(
                 {
                     _id: thread_id,
@@ -109,19 +120,20 @@ function Board() {
         }, (err, thread) => {
             if (err) return callback(err, null);
             if (!thread) return callback(true, null);
-            if (!bcrypt.compareSync(listResult[0].delete_password, delete_password)) return callback(true, null);
+            if (!bcrypt.compareSync(delete_password, thread.delete_password)) return callback(true, null);
             ThreadModel.findOneAndUpdate(
                 {
                     _id: thread_id,
-                    board: board
+                    board: board,
+                    replies: {
+                        $elemMatch: {
+                            _id: reply_id
+                        }
+                    }
                 },
                 {
-                    $pull: {
-                        replies: {
-                            $elemMatch: {
-                                _id: reply_id
-                            }
-                        }
+                    $set: {
+                        'replies.$.text': '[deleted]'
                     }
                 },
                 (err, replyDeleted) => {
@@ -159,7 +171,9 @@ function Board() {
                 }
             },
             {
-                reported: true
+                $set: {
+                    'replies.$.reported': true
+                }
             },
             {
                 new: true
