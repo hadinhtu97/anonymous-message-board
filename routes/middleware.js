@@ -15,17 +15,8 @@ module.exports = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
 
-    app.use(helmet({
-        frameguard: {
-            action: 'deny'
-        },
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'"],
-                styleSrc: ["'self'"]
-            }
-        }
-    }));
+    app.use(helmet.frameguard({ action: 'sameorigin' }));
+    app.use(helmet.dnsPrefetchControl());
+    app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 
 }
