@@ -53,7 +53,14 @@ function Board() {
         return await ThreadModel.find(
             {
                 board: board
+            },
+            {
+                // most recent 3 replies
+                $slice: {
+                    replies: 3
+                }
             })
+            //most recent 10 bumped threads on the board
             .sort({
                 bumped_on: -1,
             })
@@ -89,6 +96,9 @@ function Board() {
     }
 
     // To compare password, i use callback
+    // Find a thread with id and board
+    // compare pass
+    // if pass is valid, delete
     this.deleteThread = (board, thread_id, delete_password, callback) => {
         ThreadModel.findOne({
             _id: thread_id,
