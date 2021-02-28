@@ -1,7 +1,7 @@
 {
   "name": "anonymous-message-board",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend APIs manage message on board.",
   "main": "server.js",
   "scripts": {
     "test": "mocha --timeout 5000",
