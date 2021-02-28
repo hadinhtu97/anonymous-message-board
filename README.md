@@ -26,3 +26,6 @@ npm run start
 * DELETE
   * `[]/api/threads/[board]`: with form data including `thread_id` and `delete_password` to delete this thread_id
   * `[]/api/replies/[board]` : with form data including `thread_id`, `reply_id` and `delete_password`. If success, the text of the `reply_id` will be changed to `deleted`.
+
+### Demo
+[Link Demo](https://anonymous-message-board/.hadinhtu97.repl.co/)
